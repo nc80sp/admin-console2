@@ -8,15 +8,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
     // ログイン画面を表示する
     public function showLogin(Request $request)
     {
+        $hash = Hash::make('pass');
+        if (Hash::check('pasas', $hash)) {
+            echo 'OK!';
+        }else {
+            echo 'NG';
+        }
+
         // ログインしてるかチェック
         if ($request->session()->exists('login')) {
-            return redirect('accounts/showAccount');
+            return redirect()->route('accounts.show');
         } else {
             return view('accounts/login');
         }

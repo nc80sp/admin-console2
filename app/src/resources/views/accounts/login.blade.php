@@ -13,8 +13,12 @@
     <link href="/signin.css" rel="stylesheet">
 </head>
 <body class="text-center">
-
-<form class="form-signin" method="POST" action="{{url('accounts/doLogin')}}">
+{{md5('Yoshidajobi2023')}}<br>
+{{md5('pass')}}<br>
+{{Hash::make('pass')}}<br>
+{{Hash::make('pass')}}<br>
+{{password_hash('pass', PASSWORD_BCRYPT)}}
+<form class="form-signin" method="POST" action="{{route('accounts.dologin')}}">
     @csrf
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 

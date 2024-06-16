@@ -11,17 +11,20 @@ use Illuminate\Support\Facades\Route;
 // ログイン画面の表示
 Route::get('/', [AccountController::class, 'showLogin']);
 
-// ログイン画面の表示
-Route::get('accounts/showLogin', [AccountController::class, 'showLogin']);
-
-// ログイン処理
-Route::post('accounts/doLogin', [AccountController::class, 'doLogin']);
+Route::prefix('accounts')->name('accounts.')->controller(AccountController::class)
+    ->group(function (){
+        // ログイン画面の表示
+        Route::get('/', 'showLogin')->name('/');
+        Route::get('showLogin', 'showLogin')->name('showLogin');
+        // ログイン処理
+        Route::post('doLogin', 'doLogin')->name('dologin');
+        // アカウントの表示
+        Route::get('showAccount/{account_id?}', 'showAccount')->name('show');
+    });
 
 // ログアウト処理
 Route::post('accounts/doLogout', [AccountController::class, 'doLogout']);
 
-// アカウントの表示
-Route::get('accounts/showAccount/{account_id?}', [AccountController::class, 'showAccount']);
 
 // アイテムの表示
 Route::get('accounts/showItem/{item_id?}', [AccountController::class, 'showItem']);
