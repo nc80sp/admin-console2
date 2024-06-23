@@ -23,5 +23,7 @@ class AccountsTableSeeder extends Seeder
             'name' => 'chiba',
             'password' => Hash::make('nobu')
         ]);
+
+        Account::factory(20)->create();
     }
 }

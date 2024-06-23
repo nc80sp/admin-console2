@@ -7,139 +7,107 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AccountController extends Controller
 {
-    // ログイン画面を表示する
-    public function showLogin(Request $request)
-    {
-        $hash = Hash::make('pass');
-        if (Hash::check('pasas', $hash)) {
-            echo 'OK!';
-        }else {
-            echo 'NG';
-        }
-
-        // ログインしてるかチェック
-        if ($request->session()->exists('login')) {
-            return redirect()->route('accounts.show');
-        } else {
-            return view('accounts/login');
-        }
-    }
-
-    // ログイン処理
-    public function doLogin(Request $request)
-    {
-        if ($request['name'] === 'jobi' && $request['password'] === 'jobi') {
-            // セッションにログイン情報を登録
-            $request->session()->put('login', true);
-
-            // 一覧表示
-            return redirect('accounts/showAccount');
-
-        } else {
-            // エラー表示
-            $error = '入力内容に誤りがあります。';
-            return view('accounts/login', ['error' => $error]);
-        }
-    }
-
-    // ログアウト処理
-    public function dologout(Request $request)
-    {
-        // 指定したデータをセッションから削除
-        $request->session()->forget('login');
-
-        // ログイン画面にリダイレクト
-        return redirect('accounts/showLogin');
-    }
-
     // アカウント一覧を表示する
-    public function showAccount(Request $request)
+    public function index(Request $request)
     {
         // ログインしているかチェック
-        if ($request->session()->exists('login')) {
-            // ログインしている
-            $data = [
-                ['id' => 1, 'name' => 'jobi', 'level' => '10', 'exp' => 100, 'life' => 3],
-                ['id' => 2, 'name' => 'hoge', 'level' => '22', 'exp' => 1050, 'life' => 25],
-                ['id' => 3, 'name' => 'huga', 'level' => '23', 'exp' => 1120, 'life' => 33],
-            ];
-
-            return view('accounts/account', ['accounts' => $data]);
-        } else {
-            // ログインしてない
-
+        if (!$request->session()->exists('login')) {
             // ログイン画面にリダイレクト
-            return redirect('accounts/showLogin');
+            return redirect('accounts/index');
         }
+
+        if (empty($request->name)) {
+            $accounts = Account::All();
+        } else {
+            $accounts = Account::where('name', '=', $request->name)->get();
+        }
+
+        return view('accounts.index', ['accounts' => $accounts]);
     }
 
-    // アイテム一覧の表示
-    public function showItem(Request $request)
+    //アカウント登録画面表示
+    public function create(Request $request)
     {
-        // ログインしているかチェック
-        if ($request->session()->exists('login')) {
-            // ログインしている
-            $data = [
-                ['id' => 1, 'name' => 'やくそう', 'type' => '1', 'effect_value' => 10, 'text' => 'HPを少し回復'],
-                ['id' => 2, 'name' => '上やくそう', 'type' => '1', 'effect_value' => 25, 'text' => 'HPを回復'],
-                ['id' => 3, 'name' => '特やくそう', 'type' => '1', 'effect_value' => 50, 'text' => 'HPをかなり回復'],
-                ['id' => 4, 'name' => 'はねのくつ', 'type' => '2', 'effect_value' => 8, 'text' => '素早さが上がる']
-            ];
-
-            return view('accounts/item', ['items' => $data]);
-        } else {
-            // ログインしてない
-
-            // ログイン画面にリダイレクト
-            return redirect('accounts/showLogin');
-        }
+        return view('accounts.create');
     }
 
-    // 所持アイテム一覧の表示
-    public function showHaveItem(Request $request)
+    //アカウント登録
+    public function store(Request $request)
     {
-        // ログインしているかチェック
-        if ($request->session()->exists('login')) {
-            // ログインしている
-            $data = [
-                ['player_id' => 2, 'player_name' => 'hoge', 'item_name' => '上やくそう', 'quantity' => 10],
-                ['player_id' => 3, 'player_name' => 'huga', 'item_name' => 'はねのくつ', 'quantity' => 1]
-            ];
+        //バリデーションチェック
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'min:4', 'max:20'],
+            'password' => ['required', 'confirmed']
+        ]);
 
-            return view('accounts/haveItem', ['haveItems' => $data]);
-        } else {
-            // ログインしてない
-
-            // ログイン画面にリダイレクト
-            return redirect('accounts/showLogin');
+        if ($validator->fails()) {
+            return redirect()->route('accounts.create', ['name' => $request->name])
+                ->withErrors($validator)
+                ->withInput();
         }
+
+        $account = Account::where('name', '=', $request->password)->get();
+        if ($account->count() > 0) {
+            return redirect()->route('accounts.create', ['error' => 'already', 'name' => $request->name]);
+        }
+
+        Account::create([
+            'name' => $request->name,
+            'password' => Hash::make($request->password)
+        ]);
+
+        return redirect()->route('accounts.create', ['account' => $request->name]);
+    }
+
+    //アカウント削除確認画面表示
+    public function delete(Request $request)
+    {
+        if (isset($request->id)) {
+            $account = Account::findOrFail($request->id);
+        } else {
+            $account = null;
+        }
+
+        return view('accounts.delete', ['account' => $account]);
+    }
+
+    //アカウント削除処理
+    public function destroy(Request $request)
+    {
+        $account = Account::findOrFail($request->id);
+        $name = $account->name;
+        $account->delete();
+
+        return redirect()->route('accounts.delete', ['name' => $name]);
+    }
+
+    //アカウント更新画面表示
+    public function edit(Request $request)
+    {
+        if (isset($request->id)) {
+            $account = Account::findOrFail($request->id);
+        } else {
+            $account = null;
+        }
+
+        return view('accounts.edit', ['account' => $account]);
+    }
+
+    //アカウント更新処理
+    public function update(Request $request)
+    {
+        $account = Account::findOrFail($request->id);
+        $name = $account->name;
+        $account->password = Hash::make($request->password);
+        $account->save();
+
+        return redirect()->route('accounts.edit', ['name' => $name]);
     }
 }
-
-//- デバック -//
-//dd関数
-//dd($request->account_id);
-
-//Laravel DebugBar
-// use Barryvdh\Debugbar\Facades\Debugbar;
-//Debugbar::info('あいうえお');
-//Debugbar::error('えらーだよ');
-
-/* セッションに指定のキーで値を保存
-$request->session()->put('name', 'hoge');
-// セッションから指定のキーの値を取得
-$value = $request->session()->get('name');
-// 指定したデータをセッションから削除
-$request->session()->forget('name');
-// セッションのデータをすべて削除
-$request->session()->flush();
-// セッションに指定してキーが存在するか
-if ($request->session()->exists('name')) {
-
-}
-dd($value);*/

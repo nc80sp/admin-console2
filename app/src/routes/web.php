@@ -6,28 +6,46 @@
 //-------------------------------------------------
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+// 認証関係
 // ログイン画面の表示
-Route::get('/', [AccountController::class, 'showLogin']);
-
-Route::prefix('accounts')->name('accounts.')->controller(AccountController::class)
-    ->group(function (){
-        // ログイン画面の表示
-        Route::get('/', 'showLogin')->name('/');
-        Route::get('showLogin', 'showLogin')->name('showLogin');
+Route::get('/', [AuthController::class, 'index'])->name('auth.index');
+Route::prefix('auth')->name('auth.')->controller(AuthController::class)
+    ->group(function () {
         // ログイン処理
-        Route::post('doLogin', 'doLogin')->name('dologin');
-        // アカウントの表示
-        Route::get('showAccount/{account_id?}', 'showAccount')->name('show');
+        Route::post('login', 'login')->name('login');
+        // ログアウト処理
+        Route::get('logout', 'logout')->name('logout');
     });
 
-// ログアウト処理
-Route::post('accounts/doLogout', [AccountController::class, 'doLogout']);
+// アカウント関係
+Route::prefix('accounts')->name('accounts.')->controller(AccountController::class)
+    ->group(function (){
+        // アカウントの表示
+        Route::get('index', 'index')->name('index');
+        Route::get('show/{account_id?}', 'show')->name('show');
+        Route::get('create', 'create')->name('create');
+        Route::get('delete', 'delete')->name('delete');
+        Route::post('delete', 'delete')->name('delete');
+        Route::post('store', 'store')->name('store');
+        Route::post('destroy', 'destroy')->name('destroy');
+        Route::get('edit', 'edit')->name('edit');
+        Route::post('edit', 'edit')->name('edit');
+        Route::post('update', 'update')->name('update');
+    });
 
 
-// アイテムの表示
-Route::get('accounts/showItem/{item_id?}', [AccountController::class, 'showItem']);
+Route::prefix('items')->name('items.')->controller(ItemController::class)
+    ->group(function () {
+        Route::get('index', [ItemController::class, 'index'])->name('index');
+    });
 
-// 所持アイテムの表示
-Route::get('accounts/showHaveItem/{player_id?}', [AccountController::class, 'showHaveItem']);
+Route::prefix('users')->name('users.')->controller(UserController::class)
+    ->group(function () {
+        Route::get('index', [UserController::class, 'index'])->name('index');
+        Route::get('items/index', [UserController::class, 'showItem'])->name('showItem');
+    });
