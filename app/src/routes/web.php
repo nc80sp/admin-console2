@@ -9,6 +9,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
 // 認証関係
@@ -23,8 +24,8 @@ Route::prefix('auth')->name('auth.')->controller(AuthController::class)
     });
 
 // アカウント関係
-Route::prefix('accounts')->name('accounts.')->controller(AccountController::class)
-    ->group(function (){
+Route::prefix('accounts')->middleware(AuthMiddleware::class)->name('accounts.')->controller(AccountController::class)
+    ->group(function () {
         // アカウントの表示
         Route::get('index', 'index')->name('index');
         Route::get('show/{account_id?}', 'show')->name('show');

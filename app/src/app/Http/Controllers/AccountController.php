@@ -20,7 +20,7 @@ class AccountController extends Controller
         // ログインしているかチェック
         if (!$request->session()->exists('login')) {
             // ログイン画面にリダイレクト
-            return redirect('accounts/index');
+            return redirect('/');
         }
 
         if (empty($request->name)) {

@@ -17,7 +17,7 @@ class UserController extends Controller
         // ログインしているかチェック
         if (!$request->session()->exists('login')) {
             // ログイン画面にリダイレクト
-            return redirect('accounts/index');
+            return redirect('/');
         }
 
         if (empty($request->name)) {
@@ -32,13 +32,23 @@ class UserController extends Controller
     public function showItem(Request $request)
     {
         if (!empty($request->name)) {
-            $haveItems = UserItem::select(['user_items.id as id', 'users.name as user_name', 'items.name as item_name', 'amount'])
+            $haveItems = UserItem::select([
+                'user_items.id as id',
+                'users.name as user_name',
+                'items.name as item_name',
+                'amount'
+            ])
                 ->join('users', 'users.id', '=', 'user_items.user_id')
                 ->join('items', 'items.id', '=', 'user_items.item_id')
                 ->where('users.name', '=', $request->name)
                 ->get();
         } else {
-            $haveItems = UserItem::select(['user_items.id as id', 'users.name as user_name', 'items.name as item_name', 'amount'])
+            $haveItems = UserItem::select([
+                'user_items.id as id',
+                'users.name as user_name',
+                'items.name as item_name',
+                'amount'
+            ])
                 ->join('users', 'users.id', '=', 'user_items.user_id')
                 ->join('items', 'items.id', '=', 'user_items.item_id')
                 ->get();
