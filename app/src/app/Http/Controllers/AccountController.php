@@ -1,9 +1,4 @@
 <?php
-//-------------------------------------------------
-// アカウントコントローラー [AccountController.php]
-// Author:Kenta Nakamoto
-// Data:2024/06/11
-//-------------------------------------------------
 
 namespace App\Http\Controllers;
 
