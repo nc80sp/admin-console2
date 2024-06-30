@@ -19,9 +19,9 @@ class AccountController extends Controller
         }
 
         if (empty($request->name)) {
-            $accounts = Account::All();
+            $accounts = Account::simplePaginate(10);
         } else {
-            $accounts = Account::where('name', '=', $request->name)->get();
+            $accounts = Account::where('name', '=', $request->name)->simplePaginate(10);
         }
 
         return view('accounts.index', ['accounts' => $accounts]);

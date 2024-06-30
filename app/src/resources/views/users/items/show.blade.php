@@ -19,14 +19,12 @@
             <th>所持個数</th>
         </tr>
 
-        @foreach($users as $user)
-                @foreach($user->items as $item)
-                <tr>
-                    <td>{{$user->name}}</td>
-                    <td>{{$item->name}}</td>
-                    <td>{{$item->pivot->amount}}</td>
-                </tr>
-                @endforeach
+        @foreach($user->items as $item)
+            <tr>
+                <td>{{$user->name}}</td>
+                <td>{{$item->name}}</td>
+                <td>{{$item->pivot->amount}}</td>
+            </tr>
         @endforeach
     </table>
 @endsection

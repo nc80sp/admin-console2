@@ -32,7 +32,8 @@ class UserController extends Controller
     public function showItem(Request $request)
     {
         if (!empty($request->name)) {
-            $haveItems = UserItem::select([
+            $user = User::where('name', '=', $request->name)->get()->first();
+            /*            $haveItems = UserItem::select([
                 'user_items.id as id',
                 'users.name as user_name',
                 'items.name as item_name',
@@ -41,8 +42,10 @@ class UserController extends Controller
                 ->join('users', 'users.id', '=', 'user_items.user_id')
                 ->join('items', 'items.id', '=', 'user_items.item_id')
                 ->where('users.name', '=', $request->name)
-                ->get();
+                ->get();*/
+            return view('users.items.show', ['user' => User::find($user->id)]);
         } else {
+            $user = User::All()->forPage(2, 10);
             $haveItems = UserItem::select([
                 'user_items.id as id',
                 'users.name as user_name',
@@ -52,7 +55,7 @@ class UserController extends Controller
                 ->join('users', 'users.id', '=', 'user_items.user_id')
                 ->join('items', 'items.id', '=', 'user_items.item_id')
                 ->get();
+            return view('users.items.index', ['users' => $user]);
         }
-        return view('users.items.index', ['haveItems' => $haveItems]);
     }
 }

@@ -10,7 +10,7 @@ class AuthMiddleware
     public function handle(Request $request, Closure $next)
     {
         //更新前処理
-        // ログインしているかチェック
+        // ログインしているかチェックphp artisan config:cache
         if (!$request->session()->exists('login')) {
             // ログイン画面にリダイレクト
             return redirect('/');

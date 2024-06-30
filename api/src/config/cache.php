@@ -38,6 +38,10 @@ return [
             'serialize' => false,
         ],
 
+        'none' => [
+            'driver' => 'null',
+        ],
+
         'database' => [
             'driver' => 'database',
             'table' => env('DB_CACHE_TABLE', 'cache'),

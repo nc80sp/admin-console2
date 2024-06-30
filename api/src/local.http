@@ -1,0 +1,36 @@
+###
+GET http://localhost:9000/api/users
+Accept: application/json
+Authorization: Bearer 1|jw4N1euahRAxdxkA9pybKQSrrAwSA88spbARyYBdcbdeb784
+
+###
+POST http://localhost:9000/api/users
+content-type: application/json
+Authorization: Bearer 1|jw4N1euahRAxdxkA9pybKQSrrAwSA88spbARyYBdcbdeb784
+Accept: application/json
+
+{
+    "name": "sample10",
+    "level": 21,
+    "exp": 210,
+    "life": 1
+}
+
+###
+GET http://localhost:9000/api/users
+Authorization: Bearer 8|DDnKcftQYfJKuTNy2TyORWLUYg7LkC9f1XRvyhrj47209d4d
+Accept: application/json
+
+###
+PUT http://localhost:9000/api/users/60
+content-type: application/json
+Authorization: Bearer 8|DDnKcftQYfJKuTNy2TyORWLUYg7LkC9f1XRvyhrj47209d4d
+Accept: application/json
+
+{
+    "id": 56,
+    "name": "abcde",
+    "level": 33,
+    "exp": 3333,
+    "life": 3
+}

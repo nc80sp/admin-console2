@@ -17,16 +17,6 @@
 version: '3'
 
 services:
-  # Webサーバーコンテナ(管理ツール)
-  app:
-    build: ./app  # Dockerfileでビルド
-    volumes:
-      - ./app/src/:/var/www/                          # Laravelディレクトリ
-      - storage-volumes:/var/www/storage/framework
-      - vendor-volumes:/var/www/vendor
-    ports:
-      - "80:80"  # ホスト側ポート番号:コンテナ内ポート番号
-
   # Webサーバーコンテナ(WebAPI)
   api:
     build: ./api  # Dockerfileでビルド
@@ -36,6 +26,16 @@ services:
       - vendor-volumes-api:/var/www/vendor
     ports:
       - "9000:80"  # ホスト側ポート番号:コンテナ内ポート番号
+
+  # Webサーバーコンテナ(管理ツール)
+  app:
+    build: ./app  # Dockerfileでビルド
+    volumes:
+      - ./app/src/:/var/www/                          # Laravelディレクトリ
+      - storage-volumes:/var/www/storage/framework
+      - vendor-volumes:/var/www/vendor
+    ports:
+      - "80:80"  # ホスト側ポート番号:コンテナ内ポート番号
 
   # DBサーバーコンテナ
   mysql:
