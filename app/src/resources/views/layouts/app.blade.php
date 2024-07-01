@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>管理画面</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
     <style>
 
@@ -72,6 +73,7 @@
             --bs-btn-active-bg: #5a23c8;
             --bs-btn-active-border-color: #5a23c8;
         }
+
         .bd-mode-toggle {
             z-index: 1500;
         }
@@ -79,17 +81,20 @@
     <link href="/sidebars.css" rel="stylesheet">
 </head>
 <body>
-<main >
+<main>
     <div class="container">
         <div class="row">
             <header class="p-2 text-bg-dark">
                 <div class="container">
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                         <img class="mb-1" src="/logo.png" alt="" width="66" height="40">
-                        <span class="col-12 col-lg-auto me-lg-auto justify-content-center fw-semibold display-6 text-light">ゲームデータ管理ツール</span>
+                        <span
+                            class="col-12 col-lg-auto me-lg-auto justify-content-center fw-semibold display-6 text-light">ゲームデータ管理ツール</span>
 
                         <div class="text-end">
-                            <button type="button" class="btn btn-warning" onclick="location.href='{{route("auth.logout")}}'">ログアウト</button>
+                            <button type="button" class="btn btn-warning"
+                                    onclick="location.href='{{route("auth.logout")}}'">ログアウト
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -101,93 +106,120 @@
                     <ul class="list-unstyled ps-0">
                         <li class="border-top my-3"></li>
                         <li class="mb-1">
-                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse"
-                            @if (isset($itemList))
-                                    aria-expanded="true"
-                            @else
-                                    aria-expanded="true"
-                            @endif
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                    data-bs-toggle="collapse" data-bs-target="#dashboard-collapse"
+                                    @if (isset($itemList))
+                                        aria-expanded="true"
+                                    @else
+                                        aria-expanded="true"
+                                @endif
                             >
                                 マスタデータ
                             </button>
                             @if (isset($itemList))
-                            <div class="collapse show" id="dashboard-collapse">
-                            @else
-                            <div class="collapse show" id="dashboard-collapse">
-                            @endif
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    @if (isset($itemList))
-                                        <li><a href="{{route('items.index')}}" class="link-body-emphasis d-inline-flex text-decoration-none rounded bg-primary text-light">アイテム一覧</a></li>
+                                <div class="collapse show" id="dashboard-collapse">
                                     @else
-                                        <li><a href="{{route('items.index')}}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">アイテム一覧</a></li>
-                                    @endif
-                                </ul>
-                            </div>
+                                        <div class="collapse show" id="dashboard-collapse">
+                                            @endif
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                                @if (isset($itemList))
+                                                    <li><a href="{{route('items.index')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded bg-primary text-light">アイテム一覧</a>
+                                                    </li>
+                                                @else
+                                                    <li><a href="{{route('items.index')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded">アイテム一覧</a>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
                         </li>
                         <li class="mb-1">
-                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="true">
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                    data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="true">
                                 ユーザーデータ
                             </button>
                             @if (isset($userList) || isset($haveItemList))
-                            <div class="collapse show" id="orders-collapse">
-                            @else
-                            <div class="collapse show" id="orders-collapse">
-                            @endif
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    @if (isset($userList))
-                                        <li><a href="{{route('users.index')}}" class="link-body-emphasis d-inline-flex text-decoration-none rounded bg-primary text-light">ユーザー一覧</a></li>
+                                <div class="collapse show" id="orders-collapse">
                                     @else
-                                        <li><a href="{{route('users.index')}}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">ユーザー一覧</a></li>
-                                    @endif
-                                    @if (isset($haveItemList))
-                                    <li><a href="{{route('users.showItem')}}" class="link-body-emphasis d-inline-flex text-decoration-none rounded bg-primary text-light">所持アイテム</a></li>
-                                    @else
-                                    <li><a href="{{route('users.showItem')}}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">所持アイテム</a></li>
-                                    @endif
-                                </ul>
-                            </div>
+                                        <div class="collapse show" id="orders-collapse">
+                                            @endif
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                                @if (isset($userList))
+                                                    <li><a href="{{route('users.index')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded bg-primary text-light">ユーザー一覧</a>
+                                                    </li>
+                                                @else
+                                                    <li><a href="{{route('users.index')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded">ユーザー一覧</a>
+                                                    </li>
+                                                @endif
+                                                @if (isset($haveItemList))
+                                                    <li><a href="{{route('users.showItem')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded bg-primary text-light">所持アイテム</a>
+                                                    </li>
+                                                @else
+                                                    <li><a href="{{route('users.showItem')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded">所持アイテム</a>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
                         </li>
                         <li class="border-top my-3"></li>
                         <li class="mb-1">
-                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse"
+                            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                                    data-bs-toggle="collapse" data-bs-target="#account-collapse"
                                     @if (isset($accountList) || isset($accountAdd) || isset($accountRemove))
                                         aria-expanded="true"
                                     @else
                                         aria-expanded="true"
-                                    @endif
+                                @endif
                             >
                                 アカウント
                             </button>
                             @if (isset($accountList) || isset($accountAdd) || isset($accountRemove))
                                 <div class="collapse show" id="account-collapse">
-                            @else
-                                <div class="collapse show" id="account-collapse">
-                            @endif
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    @if(isset($accountList))
-                                        <li><a href="{{route('accounts.index')}}" class="link-dark d-inline-flex text-decoration-none rounded bg-primary text-light">管理者一覧</a></li>
                                     @else
-                                        <li><a href="{{route('accounts.index')}}" class="link-dark d-inline-flex text-decoration-none rounded">管理者一覧</a></li>
-                                    @endif
-                                    @if(isset($accountAdd))
-                                        <li><a href="{{route('accounts.create')}}" class="link-dark d-inline-flex text-decoration-none rounded bg-primary text-light">管理者の追加</a></li>
-                                    @else
-                                        <li><a href="{{route('accounts.create')}}" class="link-dark d-inline-flex text-decoration-none rounded">管理者の追加</a></li>
-                                    @endif
-                                    <li><a href="{{route('auth.logout')}}" class="link-dark d-inline-flex text-decoration-none rounded">ログアウト</a></li>
-                                </ul>
-                            </div>
+                                        <div class="collapse show" id="account-collapse">
+                                            @endif
+                                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                                @if(isset($accountList))
+                                                    <li><a href="{{route('accounts.index')}}"
+                                                           class="link-dark d-inline-flex text-decoration-none rounded bg-primary text-light">管理者一覧</a>
+                                                    </li>
+                                                @else
+                                                    <li><a href="{{route('accounts.index')}}"
+                                                           class="link-dark d-inline-flex text-decoration-none rounded">管理者一覧</a>
+                                                    </li>
+                                                @endif
+                                                @if(isset($accountAdd))
+                                                    <li><a href="{{route('accounts.create')}}"
+                                                           class="link-dark d-inline-flex text-decoration-none rounded bg-primary text-light">管理者の追加</a>
+                                                    </li>
+                                                @else
+                                                    <li><a href="{{route('accounts.create')}}"
+                                                           class="link-dark d-inline-flex text-decoration-none rounded">管理者の追加</a>
+                                                    </li>
+                                                @endif
+                                                <li><a href="{{route('auth.logout')}}"
+                                                       class="link-dark d-inline-flex text-decoration-none rounded">ログアウト</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="col-9 " >
+            <div class="col-9 ">
                 <br>
                 @yield('content')
             </div>
         </div>
     </div>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script src="/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
 </body>
 </html>

@@ -17,8 +17,13 @@ class ItemController extends Controller
 
         if (empty($request->name)) {
             $itemDatas = Item::All();
+            $item = Item::find(1);
+            foreach ($item->users as $user) {
+                echo $user->name . '<br>';
+            }
         } else {
             $itemDatas = Item::where('name', '=', $request->name)->get();
+
         }
 
         return view('items.index', ['itemDatas' => $itemDatas]);

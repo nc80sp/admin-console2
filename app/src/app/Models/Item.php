@@ -9,8 +9,13 @@ class Item extends Model
 {
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'user_items', 'item_id', 'user_id')
+            ->withPivot('amount');
+        /*        return $this->belongsToMany(User::class, 'user_items')
+                    ->as('user_item')
+                    ->withPivot('amount');*/
     }
+
     protected $guarded = [
         'id',
     ];

@@ -12,7 +12,8 @@
         </form>
     </div>
 
-    {{$accounts->links()}}
+    <br>
+    {{$accounts->onEachSide(1)->links()}}
     <table class="justify-content-start table table-bordered  p-2 overflow-auto">
         <tr>
             <th>ID</th>
@@ -45,5 +46,5 @@
             </tr>
         @endforeach
     </table>
-    {{$accounts->links()}}
+    {{$accounts->onEachSide(1)->links('vendor.pagination.bootstrap-5')}}
 @endsection

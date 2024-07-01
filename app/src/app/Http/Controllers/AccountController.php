@@ -6,6 +6,7 @@ use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Pagination\Paginator;
 
 class AccountController extends Controller
 {
@@ -19,7 +20,7 @@ class AccountController extends Controller
         }
 
         if (empty($request->name)) {
-            $accounts = Account::simplePaginate(10);
+            $accounts = Account::paginate(10);
         } else {
             $accounts = Account::where('name', '=', $request->name)->simplePaginate(10);
         }

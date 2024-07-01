@@ -45,7 +45,7 @@ class UserController extends Controller
                 ->get();*/
             return view('users.items.show', ['user' => User::find($user->id)]);
         } else {
-            $user = User::All()->forPage(2, 10);
+            $user = User::All();
             $haveItems = UserItem::select([
                 'user_items.id as id',
                 'users.name as user_name',
