@@ -25,7 +25,7 @@ services:
       - storage-volumes-api:/var/www/storage/framework
       - vendor-volumes-api:/var/www/vendor
     ports:
-      - "9000:80"  # ホスト側ポート番号:コンテナ内ポート番号
+      - "8000:80"  # ホスト側ポート番号:コンテナ内ポート番号
 
   # Webサーバーコンテナ(管理ツール)
   app:

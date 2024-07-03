@@ -12,6 +12,7 @@
         </form>
     </div>
 
+    {{$users->links()}}
     <table class="justify-content-start table table-bordered  p-2 overflow-auto">
         <tr>
             <th>ID</th>

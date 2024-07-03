@@ -16,14 +16,9 @@ class ItemController extends Controller
         }
 
         if (empty($request->name)) {
-            $itemDatas = Item::All();
-            $item = Item::find(1);
-            foreach ($item->users as $user) {
-                echo $user->name . '<br>';
-            }
+            $itemDatas = Item::paginate(10);
         } else {
-            $itemDatas = Item::where('name', '=', $request->name)->get();
-
+            $itemDatas = Item::where('name', '=', $request->name)->paginate(10);
         }
 
         return view('items.index', ['itemDatas' => $itemDatas]);

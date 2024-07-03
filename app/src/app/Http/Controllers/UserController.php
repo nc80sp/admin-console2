@@ -21,9 +21,9 @@ class UserController extends Controller
         }
 
         if (empty($request->name)) {
-            $users = User::All();
+            $users = User::paginate(10);
         } else {
-            $users = User::where('name', '=', $request->name)->get();
+            $users = User::where('name', '=', $request->name)->paginate(10);
         }
 
         return view('users.index', ['users' => $users]);
@@ -31,31 +31,12 @@ class UserController extends Controller
 
     public function showItem(Request $request)
     {
-        if (!empty($request->name)) {
-            $user = User::where('name', '=', $request->name)->get()->first();
-            /*            $haveItems = UserItem::select([
-                'user_items.id as id',
-                'users.name as user_name',
-                'items.name as item_name',
-                'amount'
-            ])
-                ->join('users', 'users.id', '=', 'user_items.user_id')
-                ->join('items', 'items.id', '=', 'user_items.item_id')
-                ->where('users.name', '=', $request->name)
-                ->get();*/
-            return view('users.items.show', ['user' => User::find($user->id)]);
-        } else {
-            $user = User::All();
-            $haveItems = UserItem::select([
-                'user_items.id as id',
-                'users.name as user_name',
-                'items.name as item_name',
-                'amount'
-            ])
-                ->join('users', 'users.id', '=', 'user_items.user_id')
-                ->join('items', 'items.id', '=', 'user_items.item_id')
-                ->get();
-            return view('users.items.index', ['users' => $user]);
+        //個別指定
+        $user = User::find($request->id);
+        if (!empty($user)) {
+            $items = $user->items()->paginate(10);
+            $items->appends(['id' => $request->id]);
         }
+        return view('users.items.index', ['user' => $user, 'items' => $items ?? null]);
     }
 }
