@@ -131,6 +131,15 @@
                                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">アイテム一覧</a>
                                                     </li>
                                                 @endif
+                                                @if (isset($mailList))
+                                                    <li><a href="{{route('mails.index')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded bg-primary text-light">メール一覧</a>
+                                                    </li>
+                                                @else
+                                                    <li><a href="{{route('mails.index')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded">メール一覧</a>
+                                                    </li>
+                                                @endif
                                             </ul>
                                         </div>
                         </li>
@@ -163,6 +172,24 @@
                                                            class="link-body-emphasis d-inline-flex text-decoration-none rounded">所持アイテム</a>
                                                     </li>
                                                 @endif
+                                                @if (isset($haveMailList))
+                                                    <li><a href="{{route('users.showMail')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded bg-primary text-light">受信メール</a>
+                                                    </li>
+                                                @else
+                                                    <li><a href="{{route('users.showMail')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded">受信メール</a>
+                                                    </li>
+                                                @endif
+                                                @if (isset($haveFollowList))
+                                                    <li><a href="{{route('users.showFollow')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded bg-primary text-light">フォロー</a>
+                                                    </li>
+                                                @else
+                                                    <li><a href="{{route('users.showFollow')}}"
+                                                           class="link-body-emphasis d-inline-flex text-decoration-none rounded">フォロー</a>
+                                                    </li>
+                                                @endif
                                             </ul>
                                         </div>
                         </li>
@@ -176,7 +203,7 @@
                                         aria-expanded="true"
                                 @endif
                             >
-                                アカウント
+                                管理者操作
                             </button>
                             @if (isset($accountList) || isset($accountAdd) || isset($accountRemove))
                                 <div class="collapse show" id="account-collapse">
@@ -200,6 +227,15 @@
                                                 @else
                                                     <li><a href="{{route('accounts.create')}}"
                                                            class="link-dark d-inline-flex text-decoration-none rounded">管理者の追加</a>
+                                                    </li>
+                                                @endif
+                                                @if(isset($mailAdd))
+                                                    <li><a href="{{route('mails.create')}}"
+                                                           class="link-dark d-inline-flex text-decoration-none rounded bg-primary text-light">メール送信</a>
+                                                    </li>
+                                                @else
+                                                    <li><a href="{{route('mails.create')}}"
+                                                           class="link-dark d-inline-flex text-decoration-none rounded">メール送信</a>
                                                     </li>
                                                 @endif
                                                 <li><a href="{{route('auth.logout')}}"

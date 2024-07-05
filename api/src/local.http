@@ -1,10 +1,15 @@
 ###
-GET http://localhost:9000/api/users
+GET http://localhost:8000/api/login
 Accept: application/json
 Authorization: Bearer 1|jw4N1euahRAxdxkA9pybKQSrrAwSA88spbARyYBdcbdeb784
 
 ###
-POST http://localhost:9000/api/users
+GET http://localhost:8000/api/users
+Accept: application/json
+Authorization: Bearer 1|jw4N1euahRAxdxkA9pybKQSrrAwSA88spbARyYBdcbdeb784
+
+###
+POST http://localhost:8000/api/users
 content-type: application/json
 Authorization: Bearer 1|jw4N1euahRAxdxkA9pybKQSrrAwSA88spbARyYBdcbdeb784
 Accept: application/json
@@ -17,12 +22,12 @@ Accept: application/json
 }
 
 ###
-GET http://localhost:9000/api/users
+GET http://localhost:8000/api/users
 Authorization: Bearer 8|DDnKcftQYfJKuTNy2TyORWLUYg7LkC9f1XRvyhrj47209d4d
 Accept: application/json
 
 ###
-PUT http://localhost:9000/api/users/60
+PUT http://localhost:8000/api/users/60
 content-type: application/json
 Authorization: Bearer 8|DDnKcftQYfJKuTNy2TyORWLUYg7LkC9f1XRvyhrj47209d4d
 Accept: application/json

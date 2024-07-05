@@ -8,12 +8,13 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\NoCacheMiddleware;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(NoCacheMiddleware::class)->group(function(){
+Route::middleware(NoCacheMiddleware::class)->group(function () {
 
 // 認証関係
 // ログイン画面の表示
@@ -46,10 +47,19 @@ Route::middleware(NoCacheMiddleware::class)->group(function(){
             Route::get('index', [ItemController::class, 'index'])->name('index');
         });
 
+    Route::prefix('mails')->name('mails.')->controller(MailController::class)
+        ->group(function () {
+            Route::get('index', 'index')->name('index');
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+        });
+
     Route::prefix('users')->name('users.')->controller(UserController::class)
         ->group(function () {
-            Route::get('index', [UserController::class, 'index'])->name('index');
-            Route::get('items/index', [UserController::class, 'showItem'])->name('showItem');
+            Route::get('index', 'index')->name('index');
+            Route::get('items/index', 'showItem')->name('showItem');
+            Route::get('mails/index', 'showMail')->name('showMail');
+            Route::get('follows/index', 'showFollow')->name('showFollow');
         });
 
 });

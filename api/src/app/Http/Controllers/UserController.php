@@ -28,19 +28,17 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'level' => 'required',
-            'exp' => 'required',
-            'life' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError(1000, $validator->errors());
         }
+
         $input = $request->all();
         $user = User::create($input);
 
-        $success['token'] =  $user->createToken($user->name)->plainTextToken;
-        $success['name'] =  $user->name;
+        $success['token'] = $user->createToken($user->name)->plainTextToken;
+        $success['name'] = $user->name;
         return $this->sendResponse($success, 'User register successfully.');
     }
 
@@ -66,7 +64,7 @@ class UserController extends Controller
             'life' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
@@ -86,5 +84,10 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function getFollows(Request $request)
+    {
+        
     }
 }

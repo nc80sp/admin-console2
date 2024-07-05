@@ -39,4 +39,24 @@ class UserController extends Controller
         }
         return view('users.items.index', ['user' => $user, 'items' => $items ?? null]);
     }
+
+    public function showFollow(Request $request)
+    {
+        $user = User::find($request->id);
+        if (!empty($user)) {
+            $follows = $user->follows()->paginate(10);
+            $follows->appends(['id' => $request->id]);
+        }
+        return view('users.follows.index', ['user' => $user, 'follows' => $follows ?? null]);
+    }
+
+    public function showMail(Request $request)
+    {
+        $user = User::find($request->id);
+        if (!empty($user)) {
+            $mails = $user->mails()->paginate(10);
+            $mails->appends(['id' => $request->id]);
+        }
+        return view('users.mails.index', ['user' => $user, 'mails' => $mails ?? null]);
+    }
 }

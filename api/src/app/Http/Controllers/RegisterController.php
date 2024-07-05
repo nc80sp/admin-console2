@@ -24,15 +24,15 @@ class RegisterController extends Controller
             'c_password' => 'required|same:password',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken($user->name)->plainTextToken;
-        $success['name'] =  $user->name;
+        $success['token'] = $user->createToken($user->name)->plainTextToken;
+        $success['name'] = $user->name;
 
         return $this->sendResponse($success, 'User register successfully.');
     }
@@ -44,16 +44,14 @@ class RegisterController extends Controller
      */
     public function login(Request $request): JsonResponse
     {
-/*        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-            $success['token'] =  $user->createToken($user->name)->plainTextToken;
-            $success['name'] =  $user->name;
+            $success['token'] = $user->createToken($user->name)->plainTextToken;
+            $success['name'] = $user->name;
 
             return $this->sendResponse($success, 'User login successfully.');
+        } else {
+            return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
         }
-        else{
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
-        }*/
-        return "";
     }
 }
