@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'level' => $this->level,
             'exp' => $this->exp,
             'life' => $this->life,
-            'remember_token' => $this->remember_token,
+            /*'remember_token' => $this->remember_token,*/
             'created_at' => $this->created_at->format('Y/m/d H:m:i'),
         ];
     }

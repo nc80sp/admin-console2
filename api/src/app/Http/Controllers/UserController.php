@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserItemResource;
+use App\Http\Resources\UserMailResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,70 +15,64 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $users = User::All();
-//        $users = User::Where('id', '=', 58)->first();
-//        $users->tokens()->delete();
-
-        return $this->sendResponse(UserResource::collection($users));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'min_level' => ['required', 'int'],
+            'max_level' => ['required', 'int'],
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError(1000, $validator->errors());
+            return response()->json($validator->errors(), 400);
         }
+//        $users = User::Where('id', '=', 58)->first();
+//        $users->tokens()->delete();
+        $users = User::where('level', '>=', $request->min_level)->where('level', '<',
+            $request->max_level)->get();
 
-        $input = $request->all();
-        $user = User::create($input);
-
-        $success['token'] = $user->createToken($user->name)->plainTextToken;
-        $success['name'] = $user->name;
-        return $this->sendResponse($success, 'User register successfully.');
+        return response()->json(UserResource::collection($users));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(Request $request)
     {
-        //
+        $user = User::findOrFail($request->user_id);
+        $response = [
+            'detail' => UserResource::make($user),
+        ];
+        if (isset($request->withItems) && $request->withItems === "true") {
+            $response['items'] = UserItemResource::collection($user->items);
+        }
+        if (isset($request->withMails) && $request->withMails === "true") {
+            $response['mails'] = UserMailResource::collection($user->mails);
+        }
+        return response()->json($response, 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        $input = $request->all();
-
-        $validator = Validator::make($input, [
-            'name' => 'required',
-            'level' => 'required',
-            'exp' => 'required',
-            'life' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+        $user = $request->user();
+        if (isset($request->name)) {
+            $user->name = $request->name;
         }
-
-        $user->name = $input['name'];
-        $user->level = $input['level'];
-        $user->exp = $input['exp'];
-        $user->life = $input['life'];
+        if (isset($request->level)) {
+            $user->level = $request->level;
+        }
+        if (isset($request->exp)) {
+            $user->exp = $request->exp;
+        }
+        if (isset($request->life)) {
+            $user->life = $request->life;
+        }
         $user->save();
 
         clock($user);
-        return $this->sendResponse(new UserResource($user), 'Product updated successfully.');
+        return response()->json(new UserResource($user), 200);
     }
 
     /**
@@ -84,10 +81,5 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
-    }
-
-    public function getFollows(Request $request)
-    {
-        
     }
 }

@@ -12,6 +12,8 @@ return new class extends Migration {
             $table->integer('user_id')->index();
             $table->integer('follow_user_id')->index();
             $table->timestamps();
+
+            $table->unique(['user_id', 'follow_user_id']);
         });
     }
 

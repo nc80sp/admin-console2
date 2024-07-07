@@ -1,17 +1,49 @@
 <?php
 
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\CacheMiddleware;
+use App\Http\Middleware\NoCacheMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::controller(RegisterController::class)->group(function () {
+//ログイン前
+Route::controller(AuthController::class)->group(function () {
+    //ユーザー登録
     Route::post('register', 'register')->name('register');
-    Route::get('login', 'login')->name('login');
+    Route::post('login', 'login')->name('login');
 });
 
-Route::middleware(CacheMiddleware::class)->/*middleware("auth:sanctum")->*/ group(function () {
-    Route::apiResource('users', UserController::class);
-    Route::get('users/follows/', [UserController::class, 'getFollows']);
+//ログイン後
+Route::middleware(NoCacheMiddleware::class)->middleware('auth:sanctum')->group(function () {
+    /*->middleware("auth:sanctum")*/
+    //ユーザー関係
+    Route::prefix('users')->controller(UserController::class)->name('users.')->group(function () {
+        //ユーザー情報取得
+        Route::get('/', 'index')->name('index');
+        Route::get('{user_id}', 'show')->name('show');
+        //ユーザー情報更新
+        Route::post('update', 'update')->name('update');
+    });
+    //フォロー関係
+    Route::prefix('follows')->controller(FollowController::class)->name('follows.')->group(function () {
+        //フォロー情報取得
+        Route::get('{user_id}', 'show')->name('show');
+        //フォロー登録
+        Route::post('store', 'store')->name('store');
+        //フォロー削除
+        Route::post('destroy', 'destroy')->name('destroy');
+    });
+    //アイテム関係
+    Route::prefix('items')->controller(ItemController::class)->name('items.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('store', 'store')->name('store');
+    });
+    //メール関係
+    Route::prefix('mails')->controller(MailController::class)->name('mails.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('update', 'update')->name('update');
+    });
 });

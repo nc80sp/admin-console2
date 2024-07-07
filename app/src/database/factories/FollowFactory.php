@@ -13,12 +13,15 @@ class FollowFactory extends Factory
 
     public function definition(): array
     {
-        $idsA = User::all()->count();
+        $idsA = User::all()->pluck('id');
+        $idsB = User::all()->pluck('id');
+        $matrix = $idsA->crossJoin($idsB);
+        $keypair = $this->faker->unique()->randomElement($matrix);
         return [
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'user_id' => $this->faker->numberBetween(1, $idsA),
-            'follow_user_id' => $this->faker->numberBetween(1, $idsA),
+            'user_id' => $keypair[0],
+            'follow_user_id' => $keypair[1],
         ];
     }
 }
