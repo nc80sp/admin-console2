@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserItemResource;
 use App\Http\Resources\UserMailResource;
 use App\Http\Resources\UserResource;
+use App\Models\Item;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -38,10 +41,16 @@ class UserController extends Controller
      */
     public function show(Request $request)
     {
-        $user = User::findOrFail($request->user_id);
+        $user = Cache::get('user_show_' . $request->user_id, function () use ($request) {
+            $data = User::findOrFail($request->user_id);
+            Cache::set('user_show_' . $request->user_id, $data);
+            return $data;
+        });
+        //$user = User::findOrFail($request->user_id);
         $response = [
             'detail' => UserResource::make($user),
         ];
+
         if (isset($request->withItems) && $request->withItems === "true") {
             $response['items'] = UserItemResource::collection($user->items);
         }

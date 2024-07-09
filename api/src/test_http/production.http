@@ -1,0 +1,92 @@
+
+### ユーザー登録
+POST http://20.222.104.141/api/register
+content-type: application/json
+Accept: application/json
+
+{
+    "name": "sample11",
+    "level": 21,
+    "exp": 210,
+    "life": 1,
+    "password": "jobi"
+}
+
+### ユーザーログイン
+POST http://localhost:8000/api/login
+content-type: application/json
+Accept: application/json
+
+{
+    "name": "sample10",
+    "password": "jobi"
+}
+
+### ユーザー情報取得
+GET http://20.222.104.141/api/users/2?withItems=true&withMails=true
+Accept: application/json
+Authorization: Bearer 1|30EJpAWczuVIO9Lgba3d2PPERY6vuDnqniv4dhApc1005dfe
+
+### ユーザー情報取得(Level指定)
+GET http://localhost:8000/api/users/?min_level=3&max_level=30
+content-type: application/json
+Accept: application/json
+Authorization: Bearer 1|yIkN5VDijd5ZqZmRQP8NLnANong5bbbm0XXUaTzo71b12308
+
+### ユーザー情報更新
+POST http://localhost:8000/api/users/update
+content-type: application/json
+Authorization: Bearer 1|yIkN5VDijd5ZqZmRQP8NLnANong5bbbm0XXUaTzo71b12308
+Accept: application/json
+
+{
+    "life": 2
+}
+
+### フォロー取得
+GET http://localhost:8000/api/follows/56
+content-type: application/json
+Authorization: Bearer 1|yIkN5VDijd5ZqZmRQP8NLnANong5bbbm0XXUaTzo71b12308
+Accept: application/json
+
+### フォロー追加
+POST http://localhost:8000/api/follows/store
+content-type: application/json
+Authorization: Bearer 1|yIkN5VDijd5ZqZmRQP8NLnANong5bbbm0XXUaTzo71b12308
+Accept: application/json
+
+{
+    "follow_user_id": 23
+}
+
+### フォロー削除
+POST http://localhost:8000/api/follows/destroy
+content-type: application/json
+Authorization: Bearer 1|yIkN5VDijd5ZqZmRQP8NLnANong5bbbm0XXUaTzo71b12308
+Accept: application/json
+
+{
+    "follow_user_id": 23
+}
+
+### ユーザーアイテム追加更新
+POST http://localhost:8000/api/items/store
+content-type: application/json
+Authorization: Bearer 1|yIkN5VDijd5ZqZmRQP8NLnANong5bbbm0XXUaTzo71b12308
+Accept: application/json
+
+{
+    "item_id": 2,
+    "amount": 3
+}
+
+### ユーザー受信メール開封
+POST http://localhost:8000/api/mails/update
+content-type: application/json
+Authorization: Bearer 1|yIkN5VDijd5ZqZmRQP8NLnANong5bbbm0XXUaTzo71b12308
+Accept: application/json
+
+{
+    "mail_id": 3,
+    "received": 1
+}

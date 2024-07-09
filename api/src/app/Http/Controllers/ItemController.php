@@ -6,6 +6,7 @@ use App\Http\Resources\ItemResource;
 use App\Models\Item;
 use App\Models\UserItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class ItemController extends Controller
 {

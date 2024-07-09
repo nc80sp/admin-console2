@@ -24,11 +24,16 @@ class FollowController extends Controller
     //指定ユーザーのフォローを追加
     public function store(Request $request)
     {
+        if (Follow::where('user_id', '=', $request->user()->id)
+            ->where('follow_user_id', '=', $request->follow_user_id)
+            ->exists()) {
+            return response()->json(["message" => "already exists"], 400);
+        }
         Follow::create([
             'user_id' => $request->user()->id,
             'follow_user_id' => $request->follow_user_id
         ]);
-        return response()->json(['result' => 'ok'], 200);
+        return response()->json();
     }
 
     //指定ユーザーのフォローを削除

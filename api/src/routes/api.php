@@ -23,7 +23,7 @@ Route::middleware(NoCacheMiddleware::class)->middleware('auth:sanctum')->group(f
     Route::prefix('users')->controller(UserController::class)->name('users.')->group(function () {
         //ユーザー情報取得
         Route::get('/', 'index')->name('index');
-        Route::get('{user_id}', 'show')->name('show');
+        Route::get('{user_id}', 'show')->name('show')->where('user_id', '[0-9]+');
         //ユーザー情報更新
         Route::post('update', 'update')->name('update');
     });
