@@ -10,8 +10,11 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
+use Mockery\Exception;
 
 class UserController extends Controller
 {
@@ -41,6 +44,7 @@ class UserController extends Controller
      */
     public function show(Request $request)
     {
+        Log::error('aa');
         $user = Cache::get('user_show_' . $request->user_id, function () use ($request) {
             $data = User::findOrFail($request->user_id);
             Cache::set('user_show_' . $request->user_id, $data);
@@ -65,23 +69,30 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $user = $request->user();
-        if (isset($request->name)) {
-            $user->name = $request->name;
-        }
-        if (isset($request->level)) {
-            $user->level = $request->level;
-        }
-        if (isset($request->exp)) {
-            $user->exp = $request->exp;
-        }
-        if (isset($request->life)) {
-            $user->life = $request->life;
-        }
-        $user->save();
+        try {
+            $user = DB::transaction(function () use ($request) {
+                $user = $request->user();
+                if (isset($request->name)) {
+                    $user->name = $request->name;
+                }
+                if (isset($request->level)) {
+                    $user->level = $request->level;
+                }
+                if (isset($request->exp)) {
+                    $user->exp = $request->exp;
+                }
+                if (isset($request->life)) {
+                    $user->life = $request->life;
+                }
+                $user->save();
 
-        clock($user);
-        return response()->json(new UserResource($user), 200);
+                clock($user);
+                return $user;
+            });
+            return response()->json(new UserResource($user), 200);
+        } catch (Exception $e) {
+            return response()->json($e, 400);
+        }
     }
 
     /**
