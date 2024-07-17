@@ -1,11 +1,11 @@
 
 ### ユーザー登録
-POST http://20.222.104.141/api/register
+POST http://4.216.104.51/api/register
 content-type: application/json
 Accept: application/json
 
 {
-    "name": "sample11",
+    "name": "sample13",
     "level": 21,
     "exp": 210,
     "life": 1,
@@ -13,7 +13,7 @@ Accept: application/json
 }
 
 ### ユーザーログイン
-POST http://localhost:8000/api/login
+POST http://4.216.104.51/api/login
 content-type: application/json
 Accept: application/json
 
@@ -23,9 +23,9 @@ Accept: application/json
 }
 
 ### ユーザー情報取得
-GET http://20.222.104.141/api/users/2?withItems=true&withMails=true
+GET http://20.222.104.141/api/users/9?withItems=true&withMails=true
 Accept: application/json
-Authorization: Bearer 1|30EJpAWczuVIO9Lgba3d2PPERY6vuDnqniv4dhApc1005dfe
+Authorization: Bearer 3|NMbgCNf7eThVbVueuI9yo0glfjElP6E53wQmlhOj38a6707d
 
 ### ユーザー情報取得(Level指定)
 GET http://localhost:8000/api/users/?min_level=3&max_level=30
