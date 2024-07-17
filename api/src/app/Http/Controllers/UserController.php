@@ -7,9 +7,11 @@ use App\Http\Resources\UserMailResource;
 use App\Http\Resources\UserResource;
 use App\Models\Item;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,23 +67,29 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $user = $request->user();
-        if (isset($request->name)) {
-            $user->name = $request->name;
+        try {
+            $user = DB::transaction(function () use ($request) {
+                $user = $request->user();
+                if (isset($request->name)) {
+                    $user->name = $request->name;
+                }
+                if (isset($request->level)) {
+                    $user->level = $request->level;
+                }
+                if (isset($request->exp)) {
+                    $user->exp = $request->exp;
+                }
+                if (isset($request->life)) {
+                    $user->life = $request->life;
+                }
+                $user->save();
+                return $user;
+            });
+            clock($user);
+            return response()->json(new UserResource($user), 200);
+        } catch (Exception $e) {
+            return response()->json([], 500);
         }
-        if (isset($request->level)) {
-            $user->level = $request->level;
-        }
-        if (isset($request->exp)) {
-            $user->exp = $request->exp;
-        }
-        if (isset($request->life)) {
-            $user->life = $request->life;
-        }
-        $user->save();
-
-        clock($user);
-        return response()->json(new UserResource($user), 200);
     }
 
     /**
