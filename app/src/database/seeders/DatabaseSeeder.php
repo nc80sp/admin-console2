@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Stage;
 use App\Models\User;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FollowSeeder::class);
         $this->call(MailSeeder::class);
         $this->call(UserMailsSeeder::class);
+        $this->call(StageTableSeeder::class);
     }
 }

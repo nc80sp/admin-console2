@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\StageController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\NoCacheMiddleware;
 use Illuminate\Http\Request;
@@ -45,5 +46,9 @@ Route::middleware(NoCacheMiddleware::class)->middleware('auth:sanctum')->group(f
     Route::prefix('mails')->controller(MailController::class)->name('mails.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('update', 'update')->name('update');
+    });
+    //ステージ関係
+    Route::prefix('stages')->controller(StageController::class)->name('stages.')->group(function () {
+        Route::get('/', 'index')->name('index');
     });
 });
