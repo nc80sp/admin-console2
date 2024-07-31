@@ -109,7 +109,7 @@ Authorization: Bearer 1|5tMx5Cr9a3bMT9P1lJr36xpF07vuL27mevR4Lp3o869e53c3
 Accept: application/json
 
 {
-    "stage_id": 2,
+    "stage_id": 1,
     "time": 6
 }
 
@@ -117,3 +117,13 @@ Accept: application/json
 GET http://localhost:8000/api/stages/56
 content-type: application/json
 Accept: application/json
+
+### ステージレコード取得
+GET http://localhost:8000/api/stages/record
+content-type: application/json
+Accept: application/json
+
+{
+    "user_id": 1,
+    "stage_id": 1
+}

@@ -1,6 +1,6 @@
 
 ### ユーザー登録
-POST http://4.241.169.185/api/register
+POST https://4.241.169.185/api/register
 content-type: application/json
 Accept: application/json
 

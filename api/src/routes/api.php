@@ -50,7 +50,8 @@ Route::middleware(NoCacheMiddleware::class)->group(function () {
     //ステージ関係
     Route::prefix('stages')->controller(StageController::class)->name('stages.')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('{user_id}', 'show')->name('show');
+        Route::get('record', 'record')->name('record');
         Route::post('store', 'store')->middleware('auth:sanctum')->name('store');
+        Route::get('{user_id}', 'show')->name('show');
     });
 });
