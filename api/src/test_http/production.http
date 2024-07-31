@@ -1,11 +1,11 @@
 
 ### ユーザー登録
-POST http://48.218.51.39/api/register
+POST http://4.241.169.185/api/register
 content-type: application/json
 Accept: application/json
 
 {
-    "name": "sample13",
+    "name": "sample23",
     "level": 21,
     "exp": 210,
     "life": 1,
@@ -13,7 +13,7 @@ Accept: application/json
 }
 
 ### ユーザーログイン
-POST http://48.218.51.39/api/login
+POST http://4.241.169.185/api/login
 content-type: application/json
 Accept: application/json
 
@@ -23,9 +23,9 @@ Accept: application/json
 }
 
 ### ユーザー情報取得
-GET http://48.218.51.39/api/users/9?withItems=true&withMails=true
+GET http://4.241.169.185/api/users/43?withItems=true&withMails=true
 Accept: application/json
-Authorization: Bearer 3|NMbgCNf7eThVbVueuI9yo0glfjElP6E53wQmlhOj38a6707d
+Authorization: Bearer 7|SQEguMlvX6ix9WlKuJUyHQYqbyMOyc4nAqxM1SYl9b89952d
 
 ### ユーザー情報取得(Level指定)
 GET http://localhost:8000/api/users/?min_level=3&max_level=30
@@ -68,6 +68,11 @@ Accept: application/json
 {
     "follow_user_id": 23
 }
+
+### アイテム情報取得
+GET http://48.218.51.39/api/items
+Accept: application/json
+Authorization: Bearer 3|NMbgCNf7eThVbVueuI9yo0glfjElP6E53wQmlhOj38a6707d
 
 ### ユーザーアイテム追加更新
 POST http://48.218.51.39/api/items/store

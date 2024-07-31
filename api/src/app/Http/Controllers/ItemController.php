@@ -4,16 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
+use App\Models\User;
 use App\Models\UserItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::All();
-        return response()->json(ItemResource::collection($items->keyBy->id), 200);
+        $items = Cache::get('items', function () use ($request) {
+            $items = Item::All();
+            Cache::set('items', $items);
+            return $items;
+        });
+        return response()->json($items->keyBy->id, 200);
     }
 
     public function store(Request $request)

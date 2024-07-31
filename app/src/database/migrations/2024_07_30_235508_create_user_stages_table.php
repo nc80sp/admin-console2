@@ -7,17 +7,20 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('stages', function (Blueprint $table) {
+        Schema::create('user_stages', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->float('limit_time');
-            $table->integer('shuffle_count');
+            $table->integer('user_id');
+            $table->integer('stage_id');
+            $table->integer('clear_count');
+            $table->float('best_time');
             $table->timestamps();
+
+            $table->index('stage_id', 'best_time');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('stages');
+        Schema::dropIfExists('user_stages');
     }
 };

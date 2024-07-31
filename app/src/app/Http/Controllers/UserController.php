@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\User;
 use App\Models\UserItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +24,12 @@ class UserController extends Controller
         if (empty($request->name)) {
             $users = User::paginate(10);
         } else {
-            $users = User::where('name', '=', $request->name)->paginate(10);
+            $users = Cache::get('user_show_' . $request->name, function () use ($request) {
+                $users = User::where('name', '=', $request->name)->paginate(10);
+                Cache::set('user_show_' . $request->name, $users);
+                return $users;
+            });
+//            $users = User::where('name', '=', $request->name)->paginate(10);
         }
 
         return view('users.index', ['users' => $users]);

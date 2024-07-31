@@ -69,6 +69,11 @@ Accept: application/json
     "follow_user_id": 23
 }
 
+### アイテム取得
+GET http://localhost:8000/api/items
+Authorization: Bearer 2|CavqEDhXShr9qcC4ADneQaX1FRhrWtjvUZLia3qf1671e570
+Accept: application/json
+
 ### ユーザーアイテム追加更新
 POST http://localhost:8000/api/items/store
 content-type: application/json
@@ -95,4 +100,20 @@ Accept: application/json
 GET http://localhost:8000/api/stages
 content-type: application/json
 Authorization: Bearer 1|5dmNRiHMnfRhkx6HDMpbcAqd1Uv295rSs4viCtlj552935c1
+Accept: application/json
+
+### ユーザーステージ状況更新
+POST http://localhost:8000/api/stages/store
+content-type: application/json
+Authorization: Bearer 1|5tMx5Cr9a3bMT9P1lJr36xpF07vuL27mevR4Lp3o869e53c3
+Accept: application/json
+
+{
+    "stage_id": 2,
+    "time": 6
+}
+
+### ユーザーステージ状況取得
+GET http://localhost:8000/api/stages/56
+content-type: application/json
 Accept: application/json

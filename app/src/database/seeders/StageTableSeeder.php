@@ -10,19 +10,29 @@ class StageTableSeeder extends Seeder
     public function run(): void
     {
         Stage::create([
-            'name'=>'stage 1',
+            'name' => 'Stage1',
+            'limit_time' => 10.0,
+            'shuffle_count' => 7
+        ]);
+        Stage::create([
+            'name' => 'Stage2',
+            'limit_time' => 15.0,
+            'shuffle_count' => 15
+        ]);
+        Stage::create([
+            'name' => 'Stage3',
             'limit_time' => 20.0,
-            'asset_url' => ''
+            'shuffle_count' => 31
         ]);
         Stage::create([
-            'name'=>'stage 2',
+            'name' => 'Stage4',
             'limit_time' => 30.0,
-            'asset_url' => ''
+            'shuffle_count' => 51
         ]);
         Stage::create([
-            'name'=>'stage 3',
-            'limit_time' => 40.0,
-            'asset_url' => ''
+            'name' => 'Stage5',
+            'limit_time' => 50.0,
+            'shuffle_count' => 81
         ]);
     }
 }
