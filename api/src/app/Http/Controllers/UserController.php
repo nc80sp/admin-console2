@@ -43,11 +43,11 @@ class UserController extends Controller
      */
     public function show(Request $request)
     {
-        $user = Cache::get('user_show_' . $request->user_id, function () use ($request) {
-            $data = User::findOrFail($request->user_id);
-            Cache::set('user_show_' . $request->user_id, $data);
-            return $data;
-        });
+        //$user = Cache::get('user_show_' . $request->user_id, function () use ($request) {
+        $user = User::findOrFail($request->user_id);
+        //Cache::set('user_show_' . $request->user_id, $data);
+        //return $data;
+        //});
         //$user = User::findOrFail($request->user_id);
         $response = [
             'detail' => UserResource::make($user),

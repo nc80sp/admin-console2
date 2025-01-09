@@ -18,8 +18,8 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 //ログイン後
-Route::middleware(NoCacheMiddleware::class)->group(function () {
-    /*->middleware("auth:sanctum")*/
+Route::middleware(NoCacheMiddleware::class)->middleware("auth:sanctum")->group(function () {
+
     //ユーザー関係
     Route::prefix('users')->controller(UserController::class)->name('users.')->group(function () {
         //ユーザー情報取得

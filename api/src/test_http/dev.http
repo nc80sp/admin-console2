@@ -5,7 +5,7 @@ content-type: application/json
 Accept: application/json
 
 {
-    "name": "sample11",
+    "name": "sample14",
     "level": 21,
     "exp": 210,
     "life": 1,
@@ -18,14 +18,14 @@ content-type: application/json
 Accept: application/json
 
 {
-    "name": "sample10",
+    "name": "sample12",
     "password": "jobi"
 }
 
 ### ユーザー情報取得
-GET http://localhost:8000/api/users/56?withItems=true&withMails=true
+GET http://localhost:8000/api/users/63?withItems=true&withMails=true
 Accept: application/json
-Authorization: Bearer 1|5dmNRiHMnfRhkx6HDMpbcAqd1Uv295rSs4viCtlj552935c1
+Authorization: Bearer 19|0O6RMNFqsxiessqMcvFq5GRnY0ZygC55HSkiO1Pzbef3bfdd
 
 ### ユーザー情報取得(Level指定)
 GET http://localhost:8000/api/users/?min_level=3&max_level=30

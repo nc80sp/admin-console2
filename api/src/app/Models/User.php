@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
@@ -11,6 +12,8 @@ class User extends Authenticatable
 {
     use HasFactory;
     use HasApiTokens;
+
+    public $timestamps = false;
 
     public function items()
     {
@@ -32,4 +35,5 @@ class User extends Authenticatable
     protected $guarded = [
         'id',
     ];
+
 }
